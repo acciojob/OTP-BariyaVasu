@@ -1,20 +1,17 @@
 const inputs = document.querySelectorAll(".code");
 
-// Auto-focus first input on load
 window.addEventListener("load", () => inputs[0].focus());
 
 inputs.forEach((input, index) => {
   input.addEventListener("input", (e) => {
     const value = e.target.value;
 
-    // Allow only digits
-    if (!/^\d$/.test(value)) {
+    if (/^\d$/.test(value)) {
+      if (index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    } else {
       e.target.value = '';
-      return;
-    }
-
-    if (index < inputs.length - 1) {
-      inputs[index + 1].focus();
     }
   });
 
@@ -22,11 +19,11 @@ inputs.forEach((input, index) => {
     if (e.key === "Backspace") {
       if (input.value === "") {
         if (index > 0) {
-          inputs[index - 1].value = '';
           inputs[index - 1].focus();
         }
       } else {
         input.value = '';
+        e.preventDefault(); // prevent browser default behavior
       }
     }
   });
